@@ -3,6 +3,10 @@ terraform {
     linode= {
         source="linode/linode"
     }
+    http = {
+      source = "hashicorp/http"
+    }
+
   }
 }
 
@@ -12,6 +16,14 @@ provider "linode" {}
 # This data source just fetches your account details (email, etc)
 data "linode_account" "my_account" {}
 
+data "http" "my_ip" {
+  url = "https://api.ipify.org"
+}
+
 output "account_email" {
     value = data.linode_account.my_account.email
+}
+
+output "my_ip_cidr" {
+  value = "${trimspace(data.http.my_ip.response_body)}/32"   
 }
