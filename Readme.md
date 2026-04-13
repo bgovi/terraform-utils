@@ -25,3 +25,15 @@ Rerun plan and apply on ip change
 terraform init
 terraform plan
 terraform apply
+
+
+for s3 bucket.
+```bash
+sudo apt get install awscli -y
+aws configure
+
+
+-- simple copy command
+aws s3 cp s3://bgovi-prod-artifacts-001/root/sup/sup.txt ./wtf.txt --endpoint-url https://us-mia-1.linodeobjects.com
+
+```
