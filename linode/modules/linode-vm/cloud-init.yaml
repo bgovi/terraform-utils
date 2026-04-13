@@ -1,0 +1,28 @@
+#cloud-config
+write_files:
+  - path: /etc/ssh/sshd_config.d/99-hardening.conf
+    permissions: "0644"
+    owner: root:root
+    content: |
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+      ChallengeResponseAuthentication no
+      PermitRootLogin prohibit-password
+      PubkeyAuthentication yes
+
+# docker config
+package_update: true
+package_upgrade: true
+
+packages:
+  - docker.io
+
+groups:
+  - docker
+
+runcmd:
+  - sshd -t # check ssh config
+  - systemctl reload ssh #reload ssh
+  - systemctl enable docker #docker install
+  - systemctl start docker
+  - docker --version > /root/docker-version.txt

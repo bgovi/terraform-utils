@@ -16,7 +16,7 @@ module "vm" {
   label             = var.label
   region            = var.region
   linode_type       = var.linode_type
-  ssh_public_key    = file(pathexpand(var.ssh_public_key_path))
-  allowed_ssh_cidrs = var.allowed_ssh_cidrs
+  # ssh_public_key    = file(pathexpand(var.ssh_public_key_path))
+  # allowed_ssh_cidrs = var.allowed_ssh_cidrs
   tags              = ["terraform", "vm"]
 }

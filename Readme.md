@@ -4,8 +4,8 @@ This is the first commit for the module. This will be used to execute terraform 
 export LINODE_TOKEN="your_token"
 cd stacks/vm
 terraform init
-terraform plan -var="linode_type=g6-standard-1"
-terraform apply -var="linode_type=g6-standard-1"
+terraform plan -var="linode_type=g6-nanode-1"
+terraform apply -var="linode_type=g6-nanode-1"
 
 ```
 
@@ -19,3 +19,9 @@ terraform init # or terraform -chdir=stacks/database init
 terraform plan -var="db_type=g6-standard-1"
 terraform apply -var="db_type=g6-standard-1"
 ```
+
+Rerun plan and apply on ip change
+
+terraform init
+terraform plan
+terraform apply

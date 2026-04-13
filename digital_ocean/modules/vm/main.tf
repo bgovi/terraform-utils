@@ -32,3 +32,17 @@ resource "digitalocean_firewall" "ssh" {
     destination_addresses = ["0.0.0.0/0"]
   }
 }
+
+
+# reference ssh.
+# data "digitalocean_ssh_key" "laptop" {
+#   name = "brandon-laptop"
+# }
+
+# resource "digitalocean_droplet" "vm" {
+#   name     = var.vm_name
+#   region   = var.region
+#   size     = var.vm_size
+#  image    = "ubuntu-24-04-x64"
+#  ssh_keys = [data.digitalocean_ssh_key.laptop.id]
+#}
