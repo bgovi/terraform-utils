@@ -6,13 +6,23 @@ terraform {
   }
 }
 
+data "digitalocean_ssh_keys" "all" {}
+
+locals {
+  selected_ssh_keys = [
+    for k in data.digitalocean_ssh_keys.all.ssh_keys :
+    k.id if contains(var.ssh_key_names, k.name)
+  ]
+}
+
 resource "digitalocean_droplet" "this" {
   name   = var.name
   region = var.region
   size   = var.size
   image  = var.image
 
-  ssh_keys = [var.ssh_fingerprint]
+  ssh_keys = local.selected_ssh_keys
+  user_data = file("${path.module}/cloud-init.yaml")
 }
 
 resource "digitalocean_firewall" "ssh" {
@@ -29,7 +39,27 @@ resource "digitalocean_firewall" "ssh" {
   outbound_rule {
     protocol              = "tcp"
     port_range            = "1-65535"
-    destination_addresses = ["0.0.0.0/0"]
+    destination_addresses = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+
+  outbound_rule {
+    protocol              = "udp"
+    port_range            = "1-65535"
+    destination_addresses = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
+  }
+
+  outbound_rule {
+    protocol              = "icmp"
+    destination_addresses = [
+      "0.0.0.0/0",
+      "::/0"
+    ]
   }
 }
 
